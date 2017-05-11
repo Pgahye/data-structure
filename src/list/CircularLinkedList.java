@@ -1,37 +1,31 @@
 package list;
 
-public class LinkedList<E> implements List<E> {
 
+
+public class CircularLinkedList<E> implements List<E> {
 	
-	private Node<E> head;
+	
+	private int size=0;
 	private Node<E> tail;
-	
-	private int size;
-	
+	private Node<E> pos;
 
 	@Override
 	public void add(E element) {
 		// TODO Auto-generated method stub
-
-		Node<E> newNode = new Node<E>(element);
-
-		if (head == null) {
-			head = newNode;
+		
+		final Node<E> newNode=new Node<E>(element);
+		
+		
+		if(tail == null){
+			
+			newNode.next=newNode;
 			tail = newNode;
+		}else{
 			
+			newNode.next=tail.next; //head
+			tail.next=newNode;
+			tail=tail.next;
 			
-		} else {
-
-			Node<E> x = tail;
-
-			while (x.next != null) {
-
-				
-			}
-
-			x.next = newNode;
-			tail=newNode;
-
 		}
 		size++;
 
@@ -41,38 +35,35 @@ public class LinkedList<E> implements List<E> {
 	public void add(int index, E element) {
 		// TODO Auto-generated method stub
 
-		Node<E> newNode = new Node<E>(element);
+		final Node<E> newNode = new Node<E>(element);
 
-		if (index > size) {
+		if (size < index) {
 
 			throw new IndexOutOfBoundsException("Index :" + index + ",size :" + size);
 		}
 
-		Node<E> x = head;
-		Node<E> y = head;
+		Node<E> x = tail.next; // head
 
 		if (index == 0) {
 
-			newNode.next = y;
-			head = newNode;
+			x = tail;
 
 		} else {
 
-			for (int i = 0; i < index; i++) {
+			for (int i = 0; i < index - 1; i++) {
 
-				y = x;
 				x = x.next;
 
 			}
 
-			newNode.next = y.next;
-			y.next = newNode;
-			
-			if(index==size){
-				
-				tail=newNode;
-			}
+		}
 
+		newNode.next = x.next; // head
+		x.next = newNode;
+
+		if (x == tail) {
+
+			tail = newNode;
 		}
 
 		size++;
@@ -82,20 +73,17 @@ public class LinkedList<E> implements List<E> {
 	@Override
 	public E get(int index) {
 		// TODO Auto-generated method stub
-		
-		if(size<= index){
+	if(size<= index){
 			
 			throw new IndexOutOfBoundsException("Index :"+index+",size :"+size);
 		}
 		
-		Node<E> x=head;
-		
-		for(int i=0; i<index; i++){
+		Node<E> x=tail.next; //head
+		for(int i=0; i< index; i++){
 			
 			x=x.next;
 			
 		}
-		
 		
 		return x.data;
 	}
@@ -103,70 +91,132 @@ public class LinkedList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		// TODO Auto-generated method stub
-
-		if (size <= index) {
-
-			throw new IndexOutOfBoundsException("Index :" + index + ",size :" + size);
+		
+		if(size<= index){
+			
+			throw new IndexOutOfBoundsException("Index :"+index+",size :"+size);
 		}
-
-		Node<E> x = head;
-		Node<E> y = head;
-
-		for (int i = 0; i < index; i++) {
-
-			y = x;
-			x = x.next;
-
-		}
-
+		Node<E> x=tail.next; //head
+		Node<E> y=tail.next;
+		
 		if (index == 0) {
 
-			head = y.next;
+			tail.next =x.next;
+			x.next=null;
 
 		} else {
 
-			y.next = x.next;
-			
-			if(y.next==null){
+			for (int i = 0; i < index; i++) {
 				
-				tail=y;
+				y = x;
+				x = x.next;
+
 			}
 
 		}
-		size--;
 
-		return tail.data;
+	
+
+		if (x == tail) {
+			
+			y.next = x.next;
+			tail=y;
+			
+		}else{
+			
+			y.next = x.next; // head
+			x.next = null;
+			
+		}
+
+		
+		size--;
+		
+		
+		return null;
 	}
 
 	@Override
 	public void removeAll() {
 		// TODO Auto-generated method stub
-		for(Node<E> x=head; x!=null;){
+		
+		Node<E> x= tail.next; //head로 이동
+		
+		while(x != tail){
 			
 			Node<E> next=x.next;
 			
-			x.data=null;
 			x.next=null;
 			x=next;
 			
+			
 		}
 		
+		tail.next=null;
 		tail=null;
-		head=null;
 		size=0;
+		
 
 	}
 
 	@Override
 	public int size() {
-		
 		// TODO Auto-generated method stub
 		return size;
 	}
 	
-
-
 	
+	public Object[] toArray(){
+		
+		Object[] arr=new Object[size];
+		
+		
+		if(tail==null){
+			
+			return arr;
+		}
+		Node<E> x=tail.next; 
+		
+		int index=0;
+		while(x!=null){
+			
+			arr[index++] = x.data;
+			x=x.next;
+			
+			if(x==tail.next){ //다시 head로 돌아옴 
+				
+				break;
+			}
+			
+		}
+		
+		return arr;
+	}
+
+	public E next() {
+
+
+
+		if (tail.next == null) {
+
+			return null;
+			
+		} else {
+
+			if(pos==null){
+				
+				pos = tail.next;
+			}
+			else{
+			pos = pos.next;
+			}
+		}
+
+		return pos.data;
+
+	}
+	
+
 	private static class Node<E>{
 		private Node<E> next;
 		private E data;
@@ -187,22 +237,6 @@ public class LinkedList<E> implements List<E> {
 		
 	}
 	
-	public Object[] toArray(){
-		
-		Object[] arr=new Object[size];
-		
-		for(int i=0;i<size; i++){
-			
-			//arr[i]=data[i];
-			
-		}
-		
-		
-		
-		return arr;
-		
-	}
-	@Override
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub
 		return new Iterator<E>(){
@@ -229,5 +263,5 @@ public class LinkedList<E> implements List<E> {
 			
 		};
 	}
-	
+
 }

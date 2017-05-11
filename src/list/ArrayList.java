@@ -1,5 +1,6 @@
 package list;
 
+
 public class ArrayList<E> implements List<E> {
 	
 	
@@ -136,5 +137,41 @@ public class ArrayList<E> implements List<E> {
 		// TODO Auto-generated method stub
 		return size;
 	}
+	
+	public Object[] toArray(){
+		
+		return null;
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return new Iterator<E>(){
+
+			private int index=0;
+			
+			@Override
+			public boolean hasNext() {
+				// TODO Auto-generated method stub
+				return index < size;
+			}
+
+			
+			
+			@Override
+			public E next() {
+				// TODO Auto-generated method stub
+				
+			
+				return data[index++];
+			} //익명클래스 
+			
+			
+			
+		};
+	}
+	
+
+	
 
 }

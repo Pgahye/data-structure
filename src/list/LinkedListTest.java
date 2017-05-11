@@ -51,6 +51,16 @@ public class LinkedListTest {
 	//	System.out.println("리스트크기: "+list.size() );
 		
 		
+	Iterator<Integer> it=list.iterator();
+		
+		while(it.hasNext()){
+			
+			int i=it.next(); //auto boxing
+			
+			System.out.println(i);
+		}
+		
+		
 		try{
 			//list.get(0);
 		

@@ -1,38 +1,36 @@
 package list;
 
-public class LinkedList<E> implements List<E> {
 
+
+public class DoubleLinkedList<E> implements List<E> {
 	
-	private Node<E> head;
-	private Node<E> tail;
 	
-	private int size;
+	
+	private int size=0;
+	private Node<E> head = null;
+	private Node<E> tail = null;
+	
 	
 
 	@Override
 	public void add(E element) {
 		// TODO Auto-generated method stub
 
-		Node<E> newNode = new Node<E>(element);
+		final Node<E> newNode = new Node<E>(element);
 
 		if (head == null) {
+
 			head = newNode;
 			tail = newNode;
-			
-			
+
 		} else {
 
-			Node<E> x = tail;
-
-			while (x.next != null) {
-
-				
-			}
-
-			x.next = newNode;
-			tail=newNode;
+			tail.next = newNode;
+			newNode.prev = tail;
+			tail = newNode;
 
 		}
+
 		size++;
 
 	}
@@ -41,36 +39,51 @@ public class LinkedList<E> implements List<E> {
 	public void add(int index, E element) {
 		// TODO Auto-generated method stub
 
-		Node<E> newNode = new Node<E>(element);
+		final Node<E> newNode = new Node<E>(element);
 
-		if (index > size) {
+		if (size < index) {
 
 			throw new IndexOutOfBoundsException("Index :" + index + ",size :" + size);
 		}
 
-		Node<E> x = head;
-		Node<E> y = head;
+		Node<E> x = head; // head
+		Node<E> y = head; // head
 
 		if (index == 0) {
 
-			newNode.next = y;
+			newNode.next = x;
+			x.prev = newNode;
+			newNode.prev = null;
 			head = newNode;
 
 		} else {
 
-			for (int i = 0; i < index; i++) {
+			if (size != index) {
 
-				y = x;
-				x = x.next;
+				for (int i = 0; i < index - 1; i++) {
 
-			}
+					x = x.next;
+					y = x.next;
 
-			newNode.next = y.next;
-			y.next = newNode;
-			
-			if(index==size){
-				
+				}
+
+				newNode.next = x.next; // head
+				y.prev = newNode;
+				x.next = newNode;
+				newNode.prev = x;
+			} else if ( size == index ){
+
+				for (int i = 0; i < index - 1; i++) {
+
+					x = x.next;
+
+				}
+
+				newNode.next = x.next;
+				x.next = newNode;
+				newNode.prev = x;
 				tail=newNode;
+
 			}
 
 		}
@@ -82,21 +95,20 @@ public class LinkedList<E> implements List<E> {
 	@Override
 	public E get(int index) {
 		// TODO Auto-generated method stub
-		
-		if(size<= index){
-			
-			throw new IndexOutOfBoundsException("Index :"+index+",size :"+size);
+
+		if (size <= index) {
+
+			throw new IndexOutOfBoundsException("Index :" + index + ",size :" + size);
 		}
-		
-		Node<E> x=head;
-		
-		for(int i=0; i<index; i++){
-			
-			x=x.next;
-			
+
+		Node<E> x = head;
+
+		for (int i = 0; i < index; i++) {
+
+			x = x.next;
+
 		}
-		
-		
+
 		return x.data;
 	}
 
@@ -109,100 +121,105 @@ public class LinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("Index :" + index + ",size :" + size);
 		}
 
-		Node<E> x = head;
-		Node<E> y = head;
+		Node<E> x = head; // head
 
-		for (int i = 0; i < index; i++) {
-
-			y = x;
-			x = x.next;
-
-		}
 
 		if (index == 0) {
 
-			head = y.next;
+			head = x.next;
+			head.prev = null;
 
 		} else {
-
-			y.next = x.next;
 			
-			if(y.next==null){
+			for (int i = 0; i < index - 1; i++) {
+
+				x = x.next;
 				
-				tail=y;
+			}
+
+			if (tail != x.next) {
+
+				x.next = x.next.next; // head
+				x.next.next.prev = x;
+
+			} else {
+				
+				
+				
+				x.next=null;
+				tail=x;
+				
+
 			}
 
 		}
+
 		size--;
 
-		return tail.data;
+		return null;
 	}
 
 	@Override
 	public void removeAll() {
 		// TODO Auto-generated method stub
-		for(Node<E> x=head; x!=null;){
+		
+		Node<E> x=head;
+		
+		
+		while(x!=null){
 			
 			Node<E> next=x.next;
 			
-			x.data=null;
 			x.next=null;
+			x.prev=null;
 			x=next;
+			
 			
 		}
 		
-		tail=null;
 		head=null;
+		tail=null;
 		size=0;
 
 	}
 
 	@Override
 	public int size() {
-		
 		// TODO Auto-generated method stub
 		return size;
 	}
-	
 
+	public Object[] toArray() {
+		Object[] arr = new Object[size];
+
+		Node<E> x = head;
+		int index = 0;
+		while (x != null) {
+			arr[index++] = x.data;
+			x = x.next;
+		}
+		return arr;
+	}	 
 
 	
 	private static class Node<E>{
 		private Node<E> next;
+		private Node<E> prev;
 		private E data;
 		
 		private Node(E element){
 			
 			this.data=element;
 			this.next=null;
+			this.prev=null;
 			
 			
 		}
 
-		private Node(E element, Node<E> next){
-			this.data=element;
-			this.next=next;
-			
-		}
 		
 	}
 	
-	public Object[] toArray(){
-		
-		Object[] arr=new Object[size];
-		
-		for(int i=0;i<size; i++){
-			
-			//arr[i]=data[i];
-			
-		}
-		
-		
-		
-		return arr;
-		
-	}
-	@Override
+	
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub
 		return new Iterator<E>(){
@@ -229,5 +246,5 @@ public class LinkedList<E> implements List<E> {
 			
 		};
 	}
-	
+
 }

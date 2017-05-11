@@ -1,6 +1,6 @@
 package list;
 
-public interface List<E> {
+public interface List<E>  {
 	
 	
 	void add(E element);
@@ -14,6 +14,11 @@ public interface List<E> {
 	void removeAll();
 	
 	int size();
+	
+	Object[] toArray(); 
+	Iterator<E> iterator();
+
+	
 	
 
 }
