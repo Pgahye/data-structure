@@ -151,6 +151,7 @@ public class LinkedList<E> implements List<E> {
 			
 		}
 		
+		tail=null;
 		head=null;
 		size=0;
 
