@@ -1,4 +1,4 @@
-package list;
+package stack;
 
 
 
@@ -121,42 +121,36 @@ public class DoubleLinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("Index :" + index + ",size :" + size);
 		}
 
-		Node<E> x = head; // head
+		E data = null; 
+			if( 0 == index ) {  // head 삭제 
+				 
+				data = head.data; 
+					head = head.next; 
+				if( head != null ) { 
+					head.prev = null; 
+					} 
+			 
+				} else if( size-1 == index ) { // tail 삭제 
+		 			data = tail.data; 
+					tail.prev.next = null; 
+		 			tail = tail.prev; 
+		 		} else { // 중간 삭제 
+		
+		 			Node<E> x = head; 
+					for( int i = 0; i < index; i++ ) { 
+		 				x = x.next; 
+					} 
+		 
+		 
+		 			data = x.data; 
+		 			x.next.prev = x.prev; 
+		 			x.prev.next = x.next; 
+		 		} 
+		 		 
+		 		size--; 
+		 		return data; 
 
-		E data = null;
-		if (index == 0) {
 
-			head = x.next;
-			head.prev = null;
-
-		} else {
-			
-			for (int i = 0; i < index - 1; i++) {
-
-				x = x.next;
-				
-			}
-
-			if (tail != x.next) {
-
-				x.next = x.next.next; // head
-				x.next.next.prev = x;
-
-			} else {
-				
-				
-				
-				x.next=null;
-				tail=x;
-				
-
-			}
-
-		}
-
-		size--;
-
-		return data;
 	}
 
 	@Override

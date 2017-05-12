@@ -103,6 +103,8 @@ public class ArrayList<E> implements List<E> {
 			throw new IndexOutOfBoundsException("Index :"+index+",size :"+size);
 		}
 		
+		E element = data[ index ]; 
+		
 		for(int i=0;i< size;i++){
 			
 			if(i>=index){
@@ -115,7 +117,7 @@ public class ArrayList<E> implements List<E> {
 		}
 		size--;
 		
-		return null;
+		return element;
 	}
 
 	@Override

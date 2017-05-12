@@ -1,8 +1,8 @@
-package list;
+package queue;
 
 
 
-public class DoubleLinkedList<E> implements List<E> {
+public class DoubleLinkedList<E> implements List<E>, Queue<E> {
 	
 	
 	
@@ -11,7 +11,44 @@ public class DoubleLinkedList<E> implements List<E> {
 	private Node<E> tail = null;
 	
 	
+	@Override
+	public void offer(E item) {
+		// TODO Auto-generated method stub
+		add(item);
+	}
 
+	@Override
+	public E poll() {
+		// TODO Auto-generated method stub
+		
+		if (head == null) {
+
+			return null;
+		}
+
+		E data = head.data;
+		head = head.next;
+		if (head != null) {
+			head.prev = null;
+		}
+
+		return data;
+	}
+
+	@Override
+	public E peek() {
+		// TODO Auto-generated method stub
+		
+		if(head==null){
+			
+			return null;
+		}
+		
+		return head.data;
+	}
+
+	
+	
 	@Override
 	public void add(E element) {
 		// TODO Auto-generated method stub
@@ -123,7 +160,7 @@ public class DoubleLinkedList<E> implements List<E> {
 
 		Node<E> x = head; // head
 
-		E data = null;
+
 		if (index == 0) {
 
 			head = x.next;
@@ -156,7 +193,7 @@ public class DoubleLinkedList<E> implements List<E> {
 
 		size--;
 
-		return data;
+		return null;
 	}
 
 	@Override
@@ -246,5 +283,6 @@ public class DoubleLinkedList<E> implements List<E> {
 			
 		};
 	}
+
 
 }
