@@ -3,10 +3,10 @@ package list;
 public class LinkedList<E> implements List<E> {
 
 	
-	private Node<E> head;
-	private Node<E> tail;
+	private Node<E> head= null;
+	private Node<E> tail = null;
 	
-	private int size;
+	private int size =0 ;
 	
 
 	@Override
@@ -24,10 +24,6 @@ public class LinkedList<E> implements List<E> {
 
 			Node<E> x = tail;
 
-			while (x.next != null) {
-
-				
-			}
 
 			x.next = newNode;
 			tail=newNode;
@@ -187,21 +183,20 @@ public class LinkedList<E> implements List<E> {
 		
 	}
 	
-	public Object[] toArray(){
+	public Object[] toArray() { 
+				Object[] arr = new Object[ size ]; 
+		 
+		 		Node<E> x = head; 
+		 		int index = 0; 
+		 		while( x != null ) { 
+		 			arr[ index++ ] = x.data; 
+		 			x = x.next; 
+		 		}		 
+		 		return arr; 
+		 	}	 
+
 		
-		Object[] arr=new Object[size];
-		
-		for(int i=0;i<size; i++){
-			
-			//arr[i]=data[i];
-			
-		}
-		
-		
-		
-		return arr;
-		
-	}
+	
 	@Override
 	public Iterator<E> iterator() {
 		// TODO Auto-generated method stub

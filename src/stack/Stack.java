@@ -6,6 +6,8 @@ public class Stack<E> extends ArrayList<E> {
 		
 		add(item);
 		
+
+		
 	}
 	
 	public E pop() throws StackException{

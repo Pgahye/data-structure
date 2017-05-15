@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import list.LinkedList;
+import list.List;
+import tree.LinkedTree;
+import tree.MakeExpressionTree;
+
 public class postfixCal {
 	
 	
@@ -20,11 +25,29 @@ public class postfixCal {
 			
 			String postfix= toPostfix(input.replaceAll("",""));
 			
+			
+			
 			System.out.println(postfix);
+			LinkedTree<String> tr = LinkedTree.MakeExpressionTree( postfix ); 
+
+			LinkedTree<String> trs=new LinkedTree<String>();
 			
-			double result = calculator(postfix);
+			trs.MakeExpressionTree( postfix );  ///이건 왜 안되지????
 			
-			System.out.println(result);
+			
+			double result =  LinkedTree.evaluteExpression( tr.getRoot() );		
+		
+			System.out.println("결과 " + result);
+			
+			List<String> list = new LinkedList<String>(); 
+			
+			tr.traversalPostorder( list );
+			//System.out.println( list.toString() ); 
+			
+			
+		//	double result = calculator(postfix);
+			
+			//System.out.println(result);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
