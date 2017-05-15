@@ -8,6 +8,7 @@ import tree.LinkedTree.TreeNode;
 public class LinkedTree<E> {
 
 	private TreeNode<E> root;
+	public static int count =0;
 
 	public LinkedTree(E data) {
 
@@ -119,6 +120,7 @@ public class LinkedTree<E> {
 		double result = 0;
 		double left = 0;
 		double right = 0;
+	
 
 		if (treeNode.left != null) {
 
@@ -150,9 +152,13 @@ public class LinkedTree<E> {
 
 			result = left / right;
 
-		} else
+		} else{
 			result = Double.parseDouble(treeNode.data);
-
+		
+			System.out.println(count + " " + treeNode.data);
+		}
+		
+		count ++; 
 		return result;
 
 	}
@@ -194,10 +200,10 @@ public class LinkedTree<E> {
 
 		tree.root = stack.pop();
 
-		System.out.println("root " + tree.getRoot().data);
+	//	System.out.println("root " + tree.getRoot().data);
 
-		System.out.println("root " + tree.getRoot().left.data);
-		System.out.println("root " + tree.getRoot().right.data);
+	//	System.out.println("root " + tree.getRoot().left.data);
+	//	System.out.println("root " + tree.getRoot().right.data);
 
 		return tree;
 

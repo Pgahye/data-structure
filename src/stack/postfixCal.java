@@ -32,10 +32,10 @@ public class postfixCal {
 
 			LinkedTree<String> trs=new LinkedTree<String>();
 			
-			trs.MakeExpressionTree( postfix );  ///이건 왜 안되지????
+			trs= trs.MakeExpressionTree( postfix );  //값을 저장하는 곳이 필요함 !!
 			
 			
-			double result =  LinkedTree.evaluteExpression( tr.getRoot() );		
+			double result =  LinkedTree.evaluteExpression( trs.getRoot() );		
 		
 			System.out.println("결과 " + result);
 			
