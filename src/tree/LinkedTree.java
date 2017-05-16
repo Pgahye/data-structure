@@ -137,20 +137,27 @@ public class LinkedTree<E> {
 		if (treeNode.data.equals("+")) {
 
 			result = left + right;
+			System.out.println(count + " " + left + " "+ right);
 
 		}
 
 		else if (treeNode.data.equals("-")) {
 
 			result = left - right;
+			System.out.println(count + " " + left + " "+ right);
+
 
 		} else if (treeNode.data.equals("*")) {
 
 			result = left * right;
+			System.out.println(count + " " + left + " "+ right);
+
 
 		} else if (treeNode.data.equals("/")) {
 
 			result = left / right;
+			System.out.println(count + " " + left + " "+ right);
+
 
 		} else{
 			result = Double.parseDouble(treeNode.data);
